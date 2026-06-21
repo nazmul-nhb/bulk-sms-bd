@@ -1,9 +1,21 @@
-export const BULK_SMS_BAS_API = 'https://bulksmsbd.net/api';
+/**
+ * Base API URL for bulk SMS BD
+ * @see https://bulksmsbd.net/developers
+ */
+export const BULK_SMS_BASE_API = 'https://bulksmsbd.net/api';
 
+/**
+ * * Type for success response codes
+ * @see https://bulksmsbd.net/developers
+ */
 export const SUCCESS_CODES = /* @__PURE__ */ Object.freeze({
 	202: 'SMS Sent Successfully',
 } as const);
 
+/**
+ * * Type for error response codes
+ * @see https://bulksmsbd.net/developers
+ */
 export const ERROR_CODES = /* @__PURE__ */ Object.freeze({
 	1001: 'Invalid Phone Number',
 	1002: 'Sender ID Not Correct/Sender ID is Disabled',

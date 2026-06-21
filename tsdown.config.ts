@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-	entry: ['src/index.ts', 'src/types.ts'],
+	entry: ['src/index.ts', 'src/constants.ts', 'src/types.ts'],
 	globalName: 'BulkSmsBD',
 	format: ['esm', 'cjs'],
 	dts: true,

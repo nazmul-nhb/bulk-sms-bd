@@ -1,85 +1,103 @@
 {
-	"name": "bulk-sms-bd",
-	"version": "1.0.0",
-	"description": "A JavaScript/TypeScript library for integrating with bulksmsbd.net SMS API.",
-	"main": "./dist/index.cjs",
-	"type": "module",
-	"sideEffects": false,
-	"scripts": {
-		"build": "tsdown",
-		"dev:pkg": "tsdown --watch",
-		"typecheck": "tsc --noEmit",
-		"prepublishOnly": "pnpm run build",
-		"commit": "nhb-commit",
-		"count": "nhb-count",
-		"delete": "nhb-delete",
-		"lint": "biome lint --diagnostic-level=warn",
-		"fix": "biome check --write --diagnostic-level=warn",
-		"format": "biome format --write --diagnostic-level=warn",
-		"prepare": "husky"
-	},
-	"keywords": ["bulk-sms-bd", "bulk-sms-bd-api", "bulk-sms-bd-helper"],
-	"publishConfig": {
-		"access": "public"
-	},
-	"files": ["dist", "LICENSE", "README.md", "package.json"],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/nazmul-nhb/bulk-sms-bd.git"
-	},
-	"homepage": "https://github.com/nazmul-nhb/bulk-sms-bd#readme",
-	"author": {
-		"name": "Nazmul Hassan",
-		"email": "nazmulnhb@gmail.com",
-		"url": "https://nazmul-nhb.dev"
-	},
-	"contributors": [
-		{
-			"name": "Nazmul Hassan",
-			"email": "nazmulnhb007@yahoo.com",
-			"url": "https://github.com/nazmul-nhb"
-		},
-		{
-			"name": "Nazmul Hassan",
-			"email": "nazmulnhb@gmail.com",
-			"url": "https://github.com/nhb-nazmul"
-		}
-	],
-	"bugs": {
-		"url": "https://github.com/nazmul-nhb/bulk-sms-bd/issues",
-		"email": "nazmulnhb@gmail.com"
-	},
-	"license": "MIT",
-	"devDependencies": {
-		"@biomejs/biome": "^2.5.0",
-		"@types/node": "^26.0.0",
-		"husky": "^9.1.7",
-		"lint-staged": "^17.0.7",
-		"nhb-scripts": "^1.9.2",
-		"toolbox-x": "2.4.2",
-		"tsdown": "^0.22.3",
-		"typescript": "^6.0.3"
-	},
-	"lint-staged": {
-		"*.+((c|m)?js(x)?|(c|m)?ts(x)?)": [
-			"biome format --write --diagnostic-level=warn",
-			"biome lint --diagnostic-level=warn"
-		]
-	},
-	"module": "./dist/index.mjs",
-	"types": "./dist/index.d.cts",
-	"exports": {
-		".": {
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.cjs"
-		},
-		"./types": {
-			"import": "./dist/types.mjs",
-			"require": "./dist/types.cjs"
-		},
-		"./package.json": "./package.json"
-	},
-	"inlinedDependencies": {
-		"toolbox-x": "2.4.2"
-	}
+  "name": "bulk-sms-bd",
+  "version": "1.1.0",
+  "description": "A JavaScript/TypeScript library for integrating with bulksmsbd.net SMS API.",
+  "main": "./dist/index.cjs",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev:pkg": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "commit": "nhb-commit",
+    "count": "nhb-count",
+    "delete": "nhb-delete",
+    "lint": "biome lint --diagnostic-level=warn",
+    "fix": "biome check --write --diagnostic-level=warn",
+    "format": "biome format --write --diagnostic-level=warn",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "sms",
+    "sms-api",
+    "sms-client",
+    "bulk-sms",
+    "bulk-sms-bd",
+    "bulk-sms-bd-api",
+    "bulk-sms-bd-sdk",
+    "bulk-sms-bd-client"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nazmul-nhb/bulk-sms-bd.git"
+  },
+  "homepage": "https://github.com/nazmul-nhb/bulk-sms-bd#readme",
+  "author": {
+    "name": "Nazmul Hassan",
+    "email": "nazmulnhb@gmail.com",
+    "url": "https://nazmul-nhb.dev"
+  },
+  "contributors": [
+    {
+      "name": "Nazmul Hassan",
+      "email": "nazmulnhb007@yahoo.com",
+      "url": "https://github.com/nazmul-nhb"
+    },
+    {
+      "name": "Nazmul Hassan",
+      "email": "nazmulnhb@gmail.com",
+      "url": "https://github.com/nhb-nazmul"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/nazmul-nhb/bulk-sms-bd/issues",
+    "email": "nazmulnhb@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.0",
+    "@types/node": "^26.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "nhb-scripts": "^1.9.2",
+    "toolbox-x": "2.4.2",
+    "tsdown": "^0.22.3",
+    "typescript": "^6.0.3"
+  },
+  "lint-staged": {
+    "*.+((c|m)?js(x)?|(c|m)?ts(x)?)": [
+      "biome format --write --diagnostic-level=warn",
+      "biome lint --diagnostic-level=warn"
+    ]
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./constants": {
+      "import": "./dist/constants.mjs",
+      "require": "./dist/constants.cjs"
+    },
+    "./types": {
+      "import": "./dist/types.mjs",
+      "require": "./dist/types.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "inlinedDependencies": {
+    "toolbox-x": "2.4.2"
+  }
 }

@@ -8,7 +8,7 @@ import {
 	isValidArray,
 } from 'toolbox-x/guards';
 import { BulkSmsError } from './BulkSmsError';
-import { BULK_SMS_BAS_API, ERROR_CODES, SUCCESS_CODES } from './constants';
+import { BULK_SMS_BASE_API, ERROR_CODES, SUCCESS_CODES } from './constants';
 import type {
 	BulkSmsBdConfig,
 	BulkSmsResponse,
@@ -68,7 +68,7 @@ export class BulkSmsClient {
 		) {
 			this.#bulkSmsBaseApi = isNonEmptyString(configs.bulkSmsBaseApi)
 				? configs.bulkSmsBaseApi
-				: BULK_SMS_BAS_API;
+				: BULK_SMS_BASE_API;
 
 			this.#bulkSmsApiKey = configs.bulkSmsApiKey;
 			this.#bulkSmsSenderId = configs.bulkSmsSenderId;
