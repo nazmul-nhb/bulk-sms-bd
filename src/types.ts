@@ -40,7 +40,7 @@ export interface BulkSmsBdConfig {
 
 	/**
 	 * * Sender ID for bulk SMS.
-	 * @example '8809648908142'
+	 * @example '8809648808144'
 	 */
 	bulkSmsSenderId: string;
 }
