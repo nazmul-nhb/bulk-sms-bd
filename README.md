@@ -120,6 +120,7 @@ The library is configured to export multiple paths via `package.json`. You can i
     - [manyToMany()](#manytomany)
   - [BulkSmsError](#bulksmserror)
   - [isMessageObject()](#ismessageobject)
+  - [isPhoneNumber()](#isphonenumber)
 - [Input Validation](#input-validation)
   - [Configuration Object](#configuration-object)
   - [Phone Number](#phone-number)
@@ -127,7 +128,7 @@ The library is configured to export multiple paths via `package.json`. You can i
   - [Message](#message)
 - [Constants Reference](#constants-reference)
   - [API Endpoints](#api-endpoints)
-  - [API Status & Error Codes Map](#api-status--error-codes-map)
+  - [Success & Error Codes Map](#success--error-codes-map)
 - [Type Definitions](#type-definitions)
 - [License](#license)
 
@@ -299,7 +300,7 @@ class BulkSmsError extends Error {
 
 Type guard helper to validate if a value meets the `Message` structure.
 
-> Rule: The `value` must be an object containing the keys `to` and `message`, where `message` must be non-empty string and `to` must be numeric string.
+> Rule: The `value` must be an object containing the keys `to` and `message`, where `message` must be a non-empty string and `to` must be a [valid phone number string](#isphonenumber).
 
 ```typescript
 function isMessageObject(value: unknown): value is Message
@@ -307,9 +308,21 @@ function isMessageObject(value: unknown): value is Message
 
 ---
 
+### `isPhoneNumber()`
+
+Type guard helper to validate if a value is a valid phone number.
+
+```typescript
+function isPhoneNumber(value: unknown): value is string
+```
+
+> Rule: The `value` must be a string consisting of 4 to 17 digits, optionally prefixed with a single `+` sign (e.g. with `'+'`: `'+88016XXXXXXXX'` or without `'+'`: `'88016XXXXXXXX'`).
+
+---
+
 ## Input Validation
 
-> **Note:** All inputs are validated strictly except phone numbers where only numeric strings are validated which means non-numeric strings are not allowed as phone number(s).
+> **Note:** All inputs are validated strictly using type guards.
 
 ### Configuration Object
 
@@ -323,9 +336,10 @@ Any failure in configuration validation throws a `BulkSmsError` with code `1003`
 
 ### Phone Number
 
-Phone numbers must be passed as numeric strings (e.g. `'88016XXXXXXXX'`). Non-numeric strings (like strings with alphabetic characters, spaces, or symbols) are disallowed to prevent malformed API calls:
+Phone numbers must be passed as valid phone number strings. Non-numeric characters (except an optional leading `+` sign) and lengths outside 4-17 digits are disallowed to prevent malformed API calls:
 
-- For single or bulk recipients (e.g. in `sendSMS`, `oneToOne`, `oneToMany`), they are validated to verify they are numeric strings using [`isNumericString` from `toolbox-x`](https://toolbox-x.nazmul-nhb.dev/docs/guards/primitive/numeric#isnumericstring).
+- For single or bulk recipients (e.g. in `sendSMS`, `oneToOne`, `oneToMany`), they are validated using the [`isPhoneNumber`](#isphonenumber) helper.
+- It allows 4 to 17 digits (excluding the optional `+` sign prefix when present, e.g. `'+88016XXXXXXXX'` or `'88016XXXXXXXX'`).
 
 ### Other Strings
 
@@ -336,7 +350,7 @@ Any text input—including configuration keys, message text, and endpoints—is 
 Personalized message objects (representing custom targets) must conform to the `Message` interface:
 
 - Verified using the [`isMessageObject`](#ismessageobject) (internally `isMessage`) guard.
-- Every message object in the list must be an object containing the keys `to` and `message`, where `message` must be non-empty string and `to` must be numeric string.
+- Every message object in the list must be an object containing the keys `to` and `message`, where `message` must be a non-empty string and `to` must be a [valid phone number string](#isphonenumber).
 - Passing other objects or malformed data to any method will result in a validation error (throws `BulkSmsError` with code `1003`).
 
 ---
@@ -349,7 +363,7 @@ Personalized message objects (representing custom targets) must conform to the `
 - Single / Bulk Endpoint: `/smsapi` (uses HTTP POST)
 - Personalized Endpoint: `/smsapimany` (uses HTTP POST)
 
-### API Status & Error Codes Map
+### Success & Error Codes Map
 
 | Code   | Status/Error Description                                                |
 | ------ | ----------------------------------------------------------------------- |
@@ -412,7 +426,7 @@ type ErrorCode = 1001 | 1002 | ... | 1032;
 
 ---
 
-## 🔗 Related Packages
+## Other Packages
 
 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
   <a target="_blank" href="https://www.npmjs.com/package/toolbox-x">
