@@ -3,8 +3,8 @@ import {
 	isEmptyObject,
 	isError,
 	isNonEmptyString,
+	isNumericString,
 	isObjectWithKeys,
-	isString,
 	isValidArray,
 } from 'toolbox-x/guards';
 import { BulkSmsError } from './BulkSmsError';
@@ -149,7 +149,7 @@ export class BulkSmsClient {
 			} as SmsBody;
 
 			if (isValidArray(toOrMessages)) {
-				if (isArrayOfType(toOrMessages, isString) && isNonEmptyString(msg)) {
+				if (isArrayOfType(toOrMessages, isNumericString) && isNonEmptyString(msg)) {
 					smsApiUrl = `${smsApiUrl}/smsapi`;
 					smsBody.number = toOrMessages.join(',');
 					smsBody.message = msg;
@@ -158,11 +158,11 @@ export class BulkSmsClient {
 					smsBody.messages = toOrMessages;
 				} else {
 					throw new BulkSmsError(
-						'Invalid arguments! Please provide valid phone numbers and messages!',
+						'Invalid arguments! Please provide valid phone number(s) and message(s)!',
 						1003
 					);
 				}
-			} else if (isString(toOrMessages) && isNonEmptyString(msg)) {
+			} else if (isNumericString(toOrMessages) && isNonEmptyString(msg)) {
 				smsApiUrl = `${smsApiUrl}/smsapi`;
 				smsBody.number = toOrMessages;
 				smsBody.message = msg;

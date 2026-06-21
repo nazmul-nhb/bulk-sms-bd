@@ -1,4 +1,4 @@
-import { isNonEmptyString, isObjectWithKeys } from 'toolbox-x/guards';
+import { isNonEmptyString, isNumericString, isObjectWithKeys } from 'toolbox-x/guards';
 import type { Message } from './types';
 
 /**
@@ -9,7 +9,7 @@ import type { Message } from './types';
 export function isMessage(value: unknown): value is Message {
 	return (
 		isObjectWithKeys(value, ['to', 'message']) &&
-		isNonEmptyString(value.to) &&
+		isNumericString(value.to) &&
 		isNonEmptyString(value.message)
 	);
 }
