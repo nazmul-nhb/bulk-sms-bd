@@ -1,13 +1,21 @@
+import type { ERROR_CODES, SUCCESS_CODES } from './constants';
+
 export interface Message {
 	to: string;
 	message: string;
 }
 
-export interface BulkSmsResponse {
-	response_code: number;
+export interface SuccessResponse {
+	response_code: SuccessCode;
 	success_message: string;
+}
+
+export interface ErrorResponse {
+	response_code: ErrorCode;
 	error_message: string;
 }
+
+export type BulkSmsResponse = SuccessResponse | ErrorResponse;
 
 export interface SmsBody {
 	api_key: string;
@@ -37,44 +45,6 @@ export interface BulkSmsBdConfig {
 	bulkSmsSenderId: string;
 }
 
-export type ErrorCode =
-	| 400
-	| 401
-	| 402
-	| 403
-	| 404
-	| 405
-	| 406
-	| 407
-	| 408
-	| 409
-	| 410
-	| 411
-	| 412
-	| 413
-	| 414
-	| 415
-	| 416
-	| 417
-	| 418
-	| 421
-	| 422
-	| 423
-	| 424
-	| 425
-	| 426
-	| 428
-	| 429
-	| 431
-	| 451
-	| 500
-	| 501
-	| 502
-	| 503
-	| 504
-	| 505
-	| 506
-	| 507
-	| 508
-	| 510
-	| 511;
+export type SuccessCode = keyof typeof SUCCESS_CODES;
+
+export type ErrorCode = keyof typeof ERROR_CODES;
