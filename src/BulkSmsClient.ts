@@ -1,10 +1,9 @@
 import {
 	isArrayOfType,
 	isEmptyObject,
-	isError,
 	isNonEmptyString,
-	isNumericString,
 	isObjectWithKeys,
+	isURL,
 	isValidArray,
 } from 'toolbox-x/guards';
 import { BulkSmsError } from './BulkSmsError';
@@ -16,7 +15,7 @@ import type {
 	SmsBody,
 	SuccessResponse,
 } from './types';
-import { isMessage } from './utils';
+import { _throwValidationError, isMessage, isPhoneNumber } from './utils';
 
 /**
  * @class `BulkSmsClient`
@@ -66,7 +65,7 @@ export class BulkSmsClient {
 			isNonEmptyString(configs.bulkSmsApiKey) &&
 			isNonEmptyString(configs.bulkSmsSenderId)
 		) {
-			this.#bulkSmsBaseApi = isNonEmptyString(configs.bulkSmsBaseApi)
+			this.#bulkSmsBaseApi = isURL(configs.bulkSmsBaseApi)
 				? configs.bulkSmsBaseApi
 				: BULK_SMS_BASE_API;
 
@@ -149,7 +148,7 @@ export class BulkSmsClient {
 			} as SmsBody;
 
 			if (isValidArray(toOrMessages)) {
-				if (isArrayOfType(toOrMessages, isNumericString) && isNonEmptyString(msg)) {
+				if (isArrayOfType(toOrMessages, isPhoneNumber) && isNonEmptyString(msg)) {
 					smsApiUrl = `${smsApiUrl}/smsapi`;
 					smsBody.number = toOrMessages.join(',');
 					smsBody.message = msg;
@@ -157,20 +156,14 @@ export class BulkSmsClient {
 					smsApiUrl = `${smsApiUrl}/smsapimany`;
 					smsBody.messages = toOrMessages;
 				} else {
-					throw new BulkSmsError(
-						'Invalid arguments! Please provide valid phone number(s) and message(s)!',
-						1003
-					);
+					_throwValidationError();
 				}
-			} else if (isNumericString(toOrMessages) && isNonEmptyString(msg)) {
+			} else if (isPhoneNumber(toOrMessages) && isNonEmptyString(msg)) {
 				smsApiUrl = `${smsApiUrl}/smsapi`;
 				smsBody.number = toOrMessages;
 				smsBody.message = msg;
 			} else {
-				throw new BulkSmsError(
-					'Invalid arguments! Please provide valid phone number(s) and message(s)!',
-					1003
-				);
+				_throwValidationError();
 			}
 
 			const res = await fetch(smsApiUrl, {
@@ -196,7 +189,7 @@ export class BulkSmsClient {
 			};
 		} catch (error) {
 			throw new BulkSmsError(
-				isError(error) ? error.message : 'Failed to send SMS',
+				error instanceof Error ? error.message : 'Failed to send SMS',
 				error instanceof BulkSmsError ? error.code : 1005
 			);
 		}

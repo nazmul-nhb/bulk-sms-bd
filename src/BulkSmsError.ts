@@ -5,7 +5,7 @@ import type { ErrorCode } from './types';
  *
  * Custom error class for Bulk SMS BD API.
  *
- * @extends - Native {@link Error} class with custom name (`'BulkSmsError'`) and code.
+ * @extends - Native {@link Error} class with custom `name` (`'BulkSmsError'`) and `code`.
  */
 export class BulkSmsError extends Error {
 	/**
