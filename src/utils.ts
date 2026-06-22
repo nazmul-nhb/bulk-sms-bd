@@ -50,7 +50,11 @@ export function _throwValidationError(): never {
  */
 export function _throwCaughtError(error: unknown, message: string, code: ErrorCode): never {
 	throw new BulkSmsError(
-		error instanceof Error ? error.message : message,
+		error instanceof Error
+			? error.message.startsWith('fetch failed')
+				? 'Fetch Failed! Please check your network connection!'
+				: error.message
+			: message,
 		error instanceof BulkSmsError ? error.code : code
 	);
 }

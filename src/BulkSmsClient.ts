@@ -284,7 +284,7 @@ export class BulkSmsClient {
 				balance: data?.balance,
 			};
 		} catch (error) {
-			_throwCaughtError(error, 'Failed to check balance!', 1006);
+			_throwCaughtError(error, 'Failed to check balance!', 1005);
 		}
 	}
 }

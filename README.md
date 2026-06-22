@@ -1,5 +1,7 @@
 # Bulk SMS BD
 
+<!-- markdownlint-disable-file MD024 -->
+
 > A JavaScript/TypeScript library for integrating with bulksmsbd.net SMS API.
 
 <p>
@@ -45,7 +47,8 @@
   </a>
 </p>
 
-<!-- markdownlint-disable-file MD024 -->
+> [!CAUTION]
+> This is an **unofficial** library for integrating with bulksmsbd.net API. Please use it at your own risk. The maintainer has **no affiliation** with bulksmsbd.net and does not take any responsibility for any issues or losses caused by bulksmsbd.net.
 
 `bulk-sms-bd` is a lightweight, clean, and type-safe JavaScript/TypeScript library for integrating with the [bulksmsbd.net](https://bulksmsbd.net/) SMS gateway. It supports sending single, bulk, and personalized SMS messages using a promise-based API with comprehensive error handling and complete TypeScript definitions.
 
@@ -53,15 +56,16 @@
 
 ## Features
 
-- **Comprehensive SDK Support**: Zero-dependency library, fully bundled with helper utilities.
+- **Zero Dependency**: No external dependencies required. Utilizes native [`fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 - **Multiple API Channels**:
   - **One-to-One**: Send a single SMS to a specific number.
   - **One-to-Many**: Send the same SMS to multiple numbers in a single API call.
   - **Many-to-Many**: Send different custom SMS messages to different numbers simultaneously.
   - **Check Balance**: Check the current balance of the bulk SMS account.
-- **Robust Error Handling**: Distinct `BulkSmsError` instances mapping all API error codes (`1001`-`1032`) from the bulksmsbd.net gateway.
+- **Robust Error Handling**: Distinct `BulkSmsError` instances (extended [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)) mapping all API error codes (`1001`-`1032`) from the bulksmsbd.net gateway.
 - **Flexible Package Formats**: Includes ESM and CommonJS formats out-of-the-box.
-- **Strictly Typed**: Full TypeScript support with internal type declarations.
+- **Strictly Typed**: Full TypeScript support with proper type declarations.
+- **Type Guards**: Type guards for runtime type checking.
 
 ---
 
@@ -412,7 +416,7 @@ Personalized message objects (representing custom targets) must conform to the `
 | `1032` | IP Not Whitelisted                                      |
 
 > [!NOTE]
-> The original list can be found here: <https://bulksmsbd.net/developers>
+> No code is invented, all the codes are taken from the [official documentation](https://bulksmsbd.net/developers) but the descriptions are slightly modified for better readability.
 
 ---
 
