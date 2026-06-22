@@ -1,3 +1,4 @@
+import type { GenericObject } from 'toolbox-x/types/object';
 import type { ERROR_CODES, SUCCESS_CODES } from './constants';
 
 /** Type for Message (number and message) object */
@@ -27,6 +28,28 @@ export interface ErrorResponse {
 /** Type for Bulk SMS BD API Response */
 export type BulkSmsResponse = SuccessResponse | ErrorResponse;
 
+/** Type for successful balance response from Bulk SMS BD */
+export interface BalanceResponse {
+	/** Success response code from Bulk SMS BD */
+	response_code: SuccessCode;
+	/** Balance in Bulk SMS BD Account */
+	balance: number;
+}
+
+/** Type for balance response from Bulk SMS BD */
+export type $BalanceResponse = BalanceResponse | ErrorResponse;
+
+/** Generic response from Bulk SMS BD */
+export interface GenericResponse extends GenericObject {
+	/** Response code from Bulk SMS BD */
+	response_code: SuccessCode | ErrorCode;
+	/** Error message from Bulk SMS BD */
+	error_message?: string;
+}
+
+/** Type Helper: Successful data from Bulk SMS BD */
+export type SuccessData<D extends GenericResponse> = Exclude<D, { response_code: ErrorCode }>;
+
 /** Type for SMS Body */
 export interface SmsBody {
 	/** API Key for bulk SMS */
@@ -43,7 +66,7 @@ export interface SmsBody {
 
 export interface BulkSmsBdConfig {
 	/**
-	 * * Base API URL for bulk SMS BD.
+	 * * Optional Base API URL for bulk SMS BD.
 	 * @default 'https://bulksmsbd.net/api'
 	 */
 	bulkSmsBaseApi?: string;

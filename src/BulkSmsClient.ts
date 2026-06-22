@@ -7,15 +7,23 @@ import {
 	isValidArray,
 } from 'toolbox-x/guards';
 import { BulkSmsError } from './BulkSmsError';
-import { BULK_SMS_BASE_API, ERROR_CODES, SUCCESS_CODES } from './constants';
+import { BULK_SMS_BASE_API, SUCCESS_CODES } from './constants';
 import type {
+	$BalanceResponse,
+	BalanceResponse,
 	BulkSmsBdConfig,
 	BulkSmsResponse,
 	Message,
 	SmsBody,
 	SuccessResponse,
 } from './types';
-import { _throwValidationError, isMessage, isPhoneNumber } from './utils';
+import {
+	_assertSuccessData,
+	_throwCaughtError,
+	_throwValidationError,
+	isMessage,
+	isPhoneNumber,
+} from './utils';
 
 /**
  * @class `BulkSmsClient`
@@ -176,22 +184,14 @@ export class BulkSmsClient {
 
 			const data: BulkSmsResponse = await res.json();
 
-			if (data?.response_code !== 202) {
-				throw new BulkSmsError(
-					ERROR_CODES[data?.response_code] || data?.error_message,
-					data?.response_code
-				);
-			}
+			_assertSuccessData(data);
 
 			return {
 				response_code: data?.response_code || 202,
 				success_message: SUCCESS_CODES[data?.response_code] || data?.success_message,
 			};
 		} catch (error) {
-			throw new BulkSmsError(
-				error instanceof Error ? error.message : 'Failed to send SMS',
-				error instanceof BulkSmsError ? error.code : 1005
-			);
+			_throwCaughtError(error, 'Failed to send SMS!', 1005);
 		}
 	}
 
@@ -255,5 +255,36 @@ export class BulkSmsClient {
 	 */
 	async manyToMany(messages: Message[]): Promise<SuccessResponse> {
 		return this.sendSMS(messages);
+	}
+
+	/**
+	 * * Check balance
+	 *
+	 * @returns `BalanceResponse` - Response from Bulk SMS BD
+	 *
+	 * @example
+	 * ```ts
+	 * const res = await smsClient.checkBalance();
+	 *
+	 * console.log(res);
+	 * ```
+	 */
+	async checkBalance(): Promise<BalanceResponse> {
+		try {
+			const res = await fetch(
+				`${this.#bulkSmsBaseApi}/getBalanceApi?api_key=${this.#bulkSmsApiKey}`
+			);
+
+			const data: $BalanceResponse = await res.json();
+
+			_assertSuccessData(data);
+
+			return {
+				response_code: data?.response_code || 202,
+				balance: data?.balance,
+			};
+		} catch (error) {
+			_throwCaughtError(error, 'Failed to check balance!', 1006);
+		}
 	}
 }

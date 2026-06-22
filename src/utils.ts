@@ -1,7 +1,7 @@
 import { isNonEmptyString, isObjectWithKeys } from 'toolbox-x/guards';
 import { BulkSmsError } from './BulkSmsError';
-import type { Message } from './types';
-
+import { ERROR_CODES } from './constants';
+import type { ErrorCode, GenericResponse, Message, SuccessData } from './types';
 /**
  * * Check if a value is a {@link Message} object
  * @param value - Value to check
@@ -40,4 +40,35 @@ export function _throwValidationError() {
 		`Invalid arguments! Please provide valid phone number(s) and/or message(s)!`,
 		1003
 	);
+}
+
+/**
+ * Throws {@link BulkSmsError} with error code and message
+ * @param error - Original error from catch block
+ * @param message - Fallback error message to throw
+ * @param code - Error code to throw
+ */
+export function _throwCaughtError(error: unknown, message: string, code: ErrorCode): never {
+	throw new BulkSmsError(
+		error instanceof Error ? error.message : message,
+		error instanceof BulkSmsError ? error.code : code
+	);
+}
+
+/**
+ * Throws {@link BulkSmsError} with error code and message
+ * @param data - Response data from bulk SMS BD API
+ *
+ * @remarks
+ * This function will throw an error if the `response_code` is not `202` (Accepted).
+ */
+export function _assertSuccessData<D extends GenericResponse>(
+	data: D
+): asserts data is SuccessData<D> {
+	if (data?.response_code !== 202) {
+		throw new BulkSmsError(
+			ERROR_CODES[data?.response_code] || data?.error_message,
+			data?.response_code
+		);
+	}
 }
