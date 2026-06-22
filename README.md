@@ -58,6 +58,7 @@
   - **One-to-One**: Send a single SMS to a specific number.
   - **One-to-Many**: Send the same SMS to multiple numbers in a single API call.
   - **Many-to-Many**: Send different custom SMS messages to different numbers simultaneously.
+  - **Check Balance**: Check the current balance of the bulk SMS account.
 - **Robust Error Handling**: Distinct `BulkSmsError` instances mapping all API error codes (`1001`-`1032`) from the bulksmsbd.net gateway.
 - **Flexible Package Formats**: Includes ESM and CommonJS formats out-of-the-box.
 - **Strictly Typed**: Full TypeScript support with internal type declarations.
@@ -111,6 +112,7 @@ The library is configured to export multiple paths via `package.json`. You can i
   - [1. Single SMS (One-to-One)](#1-single-sms-one-to-one)
   - [2. Same SMS to Multiple Numbers (One-to-Many)](#2-same-sms-to-multiple-numbers-one-to-many)
   - [3. Different SMS to Different Numbers (Many-to-Many)](#3-different-sms-to-different-numbers-many-to-many)
+  - [4. Checking Balance](#4-checking-balance)
 - [API Reference](#api-reference)
   - [BulkSmsClient](#bulksmsclient)
     - [Constructor](#constructor)
@@ -118,6 +120,7 @@ The library is configured to export multiple paths via `package.json`. You can i
     - [oneToOne()](#onetoone)
     - [oneToMany()](#onetomany)
     - [manyToMany()](#manytomany)
+    - [checkBalance()](#checkbalance)
   - [BulkSmsError](#bulksmserror)
   - [isMessageObject()](#ismessageobject)
   - [isPhoneNumber()](#isphonenumber)
@@ -217,6 +220,15 @@ try {
 const res = await smsClient.manyToMany(messages);
 ```
 
+### 4. Checking Balance
+
+Fetch the current balance of the bulk SMS account.
+
+```typescript
+const res = await smsClient.checkBalance();
+console.log('Balance:', res.balance);
+```
+
 ---
 
 ## API Reference
@@ -274,6 +286,16 @@ Wrapper for `sendSMS()` for sending multiple distinct messages.
 
 ```typescript
 async manyToMany(messages: Message[]): Promise<SuccessResponse>
+```
+
+#### `checkBalance()`
+
+Fetch the current balance of the bulk SMS account.
+
+> Uses the [`getBalanceApi`](http://bulksmsbd.net/api/getBalanceApi?api_key=BULK_SMS_BD_API_KEY) endpoint, which requires only the `api_key` .
+
+```typescript
+async checkBalance(): Promise<BalanceResponse>
 ```
 
 ---
@@ -362,6 +384,7 @@ Personalized message objects (representing custom targets) must conform to the `
 - Base API URL: `https://bulksmsbd.net/api`
 - Single / Bulk Endpoint: `/smsapi` (uses HTTP POST)
 - Personalized Endpoint: `/smsapimany` (uses HTTP POST)
+- Balance Check Endpoint: `/getBalanceApi` (uses HTTP GET)
 
 ### Success & Error Codes Map
 
@@ -418,6 +441,11 @@ interface ErrorResponse {
 }
 
 type BulkSmsResponse = SuccessResponse | ErrorResponse;
+
+interface BalanceResponse {
+  response_code: SuccessCode;
+  balance: number;
+}
 
 type SuccessCode = 202;
 
