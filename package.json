@@ -1,6 +1,6 @@
 {
   "name": "bulk-sms-bd",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A JavaScript/TypeScript library for integrating with bulksmsbd.net SMS API.",
   "main": "./dist/index.cjs",
   "type": "module",

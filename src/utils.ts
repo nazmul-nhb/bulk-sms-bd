@@ -35,7 +35,7 @@ export function isPhoneNumber(value: unknown): value is string {
 /**
  * Throws {@link BulkSmsError} with error code `1003` for invalid phone and/or message arguments
  */
-export function _throwValidationError() {
+export function _throwValidationError(): never {
 	throw new BulkSmsError(
 		`Invalid arguments! Please provide valid phone number(s) and/or message(s)!`,
 		1003
