@@ -258,7 +258,7 @@ export class BulkSmsClient {
 	}
 
 	/**
-	 * * Check balance
+	 * * Check current balance of the bulk SMS account
 	 *
 	 * @returns `BalanceResponse` - Response from Bulk SMS BD
 	 *
