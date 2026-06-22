@@ -9,7 +9,7 @@ export const BULK_SMS_BASE_API = 'https://bulksmsbd.net/api';
  * @see https://bulksmsbd.net/developers
  */
 export const SUCCESS_CODES = /* @__PURE__ */ Object.freeze({
-	202: 'SMS Sent Successfully',
+	202: 'SMS Submitted Successfully',
 } as const);
 
 /**
@@ -19,7 +19,7 @@ export const SUCCESS_CODES = /* @__PURE__ */ Object.freeze({
 export const ERROR_CODES = /* @__PURE__ */ Object.freeze({
 	1001: 'Invalid Phone Number',
 	1002: 'Sender ID Not Correct/Sender ID is Disabled',
-	1003: 'All Fields Required, Please Contact Administrator',
+	1003: 'All Fields are Required',
 	1005: 'Internal Error',
 	1006: 'Balance Validity Not Available',
 	1007: 'Balance Insufficient',

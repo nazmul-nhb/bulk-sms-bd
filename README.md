@@ -160,7 +160,7 @@ Send a single message to a phone number.
 ```typescript
 try {
   const res = await smsClient.sendSMS('88016XXXXXXXX', 'Hello, this is a test message!');
-  console.log('Success:', res.success_message); // "SMS Sent Successfully"
+  console.log('Success:', res.success_message); // "SMS Submitted Successfully"
 } catch (error) {
   if (error instanceof BulkSmsError) {
     console.error(`Error Code ${error.code}: ${error.message}`);
@@ -390,10 +390,10 @@ Personalized message objects (representing custom targets) must conform to the `
 
 | Code   | Status/Error Description                                                |
 | ------ | ----------------------------------------------------------------------- |
-| `202`  | SMS Sent Successfully                                                   |
+| `202`  | SMS Submitted Successfully                                              |
 | `1001` | Invalid Phone Number                                                    |
 | `1002` | Sender ID Not Correct/Sender ID is Disabled                             |
-| `1003` | All Fields Required, Please Contact Administrator                       |
+| `1003` | All Fields are Required                                                 |
 | `1005` | Internal Error                                                          |
 | `1006` | Balance Validity Not Available                                          |
 | `1007` | Balance Insufficient                                                    |
