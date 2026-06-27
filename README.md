@@ -47,8 +47,31 @@
   </a>
 </p>
 
+```ts
+import { BulkSmsClient, type BulkSmsError } from 'bulk-sms-bd';
+
+try {
+  const smsClient = new BulkSmsClient({
+    bulkSmsApiKey: 'YOUR_API_KEY',     // API key provided by bulksmsbd.net
+    bulkSmsSenderId: 'YOUR_SENDER_ID'  // Your registered Sender ID / Mask
+  });
+
+  const res = await smsClient.sendSMS('8801XXXXXXXXX', 'Hello, this is a test message!');
+  console.log('Success:', res.success_message); // "SMS Submitted Successfully"
+
+  const balance = await smsClient.getBalance();
+  console.log('Balance:', balance);
+} catch (error) {
+  if (error instanceof BulkSmsError) {
+    console.error(`Error Code ${error.code}: ${error.message}`);
+  }
+}
+```
+
 > [!CAUTION]
 > This is an **unofficial** library for integrating with bulksmsbd.net API. Please use it at your own risk. The maintainer has **no affiliation** with bulksmsbd.net and does not take any responsibility for any issues or losses caused by bulksmsbd.net.
+
+---
 
 `bulk-sms-bd` is a lightweight, clean, and type-safe JavaScript/TypeScript library for integrating with the [bulksmsbd.net](https://bulksmsbd.net/) SMS gateway. It supports sending single, bulk, and personalized SMS messages using a promise-based API with comprehensive error handling and complete TypeScript definitions.
 
@@ -93,6 +116,12 @@ yarn add bulk-sms-bd
 
 ```bash
 bun add bulk-sms-bd
+```
+
+### DENO
+
+```bash
+deno add npm:bulk-sms-bd
 ```
 
 ---
@@ -163,7 +192,7 @@ Send a single message to a phone number.
 
 ```typescript
 try {
-  const res = await smsClient.sendSMS('88016XXXXXXXX', 'Hello, this is a test message!');
+  const res = await smsClient.sendSMS('8801XXXXXXXXX', 'Hello, this is a test message!');
   console.log('Success:', res.success_message); // "SMS Submitted Successfully"
 } catch (error) {
   if (error instanceof BulkSmsError) {
@@ -175,7 +204,7 @@ try {
 *Alternative usage using `oneToOne` alias:*
 
 ```typescript
-const res = await smsClient.oneToOne('88016XXXXXXXX', 'Hello, this is a test message!');
+const res = await smsClient.oneToOne('8801XXXXXXXXX', 'Hello, this is a test message!');
 ```
 
 ### 2. Same SMS to Multiple Numbers (One-to-Many)
@@ -184,7 +213,7 @@ Send the exact same message to multiple phone numbers at once.
 
 ```typescript
 try {
-  const recipients = ['88016XXXXXXXX', '88017XXXXXXXX', '88018XXXXXXXX'];
+  const recipients = ['8801XXXXXXXXX', '88017XXXXXXXX', '88018XXXXXXXX'];
   const res = await smsClient.sendSMS(recipients, 'Hello everyone, this is a broadcast message!');
   console.log('Success:', res.success_message);
 } catch (error) {
@@ -207,7 +236,7 @@ import type { Message } from 'bulk-sms-bd/types';
 
 try {
   const messages: Message[] = [
-    { to: '88016XXXXXXXX', message: 'Hello Alice, your otp is 1234.' },
+    { to: '8801XXXXXXXXX', message: 'Hello Alice, your otp is 1234.' },
     { to: '88017XXXXXXXX', message: 'Hello Bob, your otp is 5678.' }
   ];
   
@@ -342,7 +371,7 @@ Type guard helper to validate if a value is a valid phone number.
 function isPhoneNumber(value: unknown): value is string
 ```
 
-> Rule: The `value` must be a string consisting of 4 to 17 digits, optionally prefixed with a single `+` sign (e.g. with `'+'`: `'+88016XXXXXXXX'` or without `'+'`: `'88016XXXXXXXX'`).
+> Rule: The `value` must be a string consisting of 4 to 17 digits, optionally prefixed with a single `+` sign (e.g. with `'+'`: `'+8801XXXXXXXXX'` or without `'+'`: `'8801XXXXXXXXX'`).
 
 ---
 
@@ -365,7 +394,7 @@ Any failure in configuration validation throws a `BulkSmsError` with code `1003`
 Phone numbers must be passed as valid phone number strings. Non-numeric characters (except an optional leading `+` sign) and lengths outside 4-17 digits are disallowed to prevent malformed API calls:
 
 - For single or bulk recipients (e.g. in `sendSMS`, `oneToOne`, `oneToMany`), they are validated using the [`isPhoneNumber`](#isphonenumber) helper.
-- It allows 4 to 17 digits (excluding the optional `+` sign prefix when present, e.g. `'+88016XXXXXXXX'` or `'88016XXXXXXXX'`).
+- It allows 4 to 17 digits (excluding the optional `+` sign prefix when present, e.g. `'+8801XXXXXXXXX'` or `'8801XXXXXXXXX'`).
 
 ### Other Strings
 
