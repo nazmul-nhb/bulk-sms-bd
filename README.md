@@ -56,10 +56,12 @@ try {
     bulkSmsSenderId: 'YOUR_SENDER_ID'  // Your registered Sender ID / Mask
   });
 
+  // Send SMS
   const res = await smsClient.sendSMS('8801XXXXXXXXX', 'Hello, this is a test message!');
   console.log('Success:', res.success_message); // "SMS Submitted Successfully"
 
-  const balance = await smsClient.getBalance();
+  // Check Balance
+  const balance = await smsClient.checkBalance();
   console.log('Balance:', balance);
 } catch (error) {
   if (error instanceof BulkSmsError) {
